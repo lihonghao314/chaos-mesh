@@ -1,0 +1,32 @@
+name: Docker Save To Tar
+
+on:
+  workflow_dispatch: # 允许你手动点击按钮触发编译
+
+jobs:
+  build-and-save:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker Image
+      run: |
+        # 这里的 project-image 可以换成你喜欢的镜像名字
+        docker build -t project-image:latest .
+
+    - name: Save Docker Image to Tar
+      run: |
+        # 将镜像打包成 tar 文件
+        docker save project-image:latest -o project-image.tar
+
+    - name: Upload Tar Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-tar-file
+        path: project-image.tar
+        retention-days: 7 # 文件在 GitHub 免费保留 7 天
