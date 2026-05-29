@@ -16,13 +16,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        # 这里的 project-image 可以换成你喜欢的镜像名字
-        docker build -t project-image:latest .
+        docker build -t hhli/chaos-mesh:latest .
 
     - name: Save Docker Image to Tar
       run: |
-        # 将镜像打包成 tar 文件
-        docker save project-image:latest -o project-image.tar
+        docker save hhli/chaos-mesh:latest -o chaos-mesh.tar
 
     - name: Upload Tar Artifact
       uses: actions/upload-artifact@v4
